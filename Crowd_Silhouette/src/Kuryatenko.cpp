@@ -12,6 +12,14 @@
 
 #include "Kuryatenko.h"
 #include <algorithm>
+#include <iostream>
+#include <stdlib.h>
+#include <Vector>
+#include "queue.h"
+#include "map.h"
+//#include "gbufferedimage.h"
+#include "filelib.h"
+#include "simpio.h"
 
 using namespace std;
 
@@ -84,14 +92,14 @@ void filterImage(GBufferedImage* img){
     /* -----------------------------------------------------------*/
     cout << "       - FILTER IMAGE INTO BLACK-WHITE PIXELS" << endl;
     /* -----------------------------------------------------------*/
-    int height = img->getHeight();
-    int width = img->getWidth();
+    int height = imgH;
+    int width = imgW;
     for(int row = 0; row < (height); row++){
         for(int col = 0; col < (width); col++){
             int color = img->getRGB(col, row);
             if((color < FILTER_COLOR_LIMIT)){
             /* Each dark cell set as black */
-                img->setRGB(col, row, 0x0);
+                img->setRGB(col, row, BLACK);
             }else{
             /* Other cells set as white */
                 img->setRGB(col, row, WHITE);
@@ -186,7 +194,7 @@ Vector<Pt> detectUnion(int row, int col){
  * @param unionsTable   Image objects storage vector   */
 void detectImageUnions (Vector<Vector<Pt>>& unionsTable){
     /* ------------------------------------------------*/
-    cout << "       - ASSIGN PIXELS TO OBJECTS" << endl;
+    //cout << "       - ASSIGN PIXELS TO OBJECTS" << endl;
     /* ------------------------------------------------*/
     /* Main iteration through image */
     for(int row = 0; row < (imgH); row++){
@@ -209,8 +217,8 @@ void detectImageUnions (Vector<Vector<Pt>>& unionsTable){
         }
     }
     /* -------------------------------------------------*/
-    cout << "       - UNIONS BEFORE HUMAN-PROPORTIONS CHECKING = "
-         << unionsTable.size() << endl;
+//    cout << "       - UNIONS BEFORE HUMAN-PROPORTIONS CHECKING = "
+//         << unionsTable.size() << endl;
     /* -------------------------------------------------*/
 }
 
@@ -416,8 +424,8 @@ void shrinkSilhouettes(GBufferedImage* inputImg, int inputKoef){
     filterImage(mainImage);
 
     MINIMAL_SIZE = ((imgW * imgH)/1000);//Size for garbage objects
-    NOT_HUMAN_OBJECT_COLOR = BLUE;               //To show objects discovered as not human
-    UNION_COLOR = GREEN;                         //To show union detection processing
+    NOT_HUMAN_OBJECT_COLOR = BLUE;      //To show objects discovered as not human
+    UNION_COLOR = GREEN;                //To show union detection processing
     Vector<Vector<Pt>> unionsTable1;
     detectImageUnions(unionsTable1);
     int assign1 = silhouettesCounting(unionsTable1);

@@ -13,9 +13,9 @@
  * -----------------------------------------------------------------------------------------*/
 //Vector <Vector <Pnt>> objects;
 
-void findObjects(GBufferedImage* userImg);
+void findObjects(GBufferedImage* inputImg);
 
-void prihozhenkoProcess(GBufferedImage* userImg);
+void prihozhenkoProcess();
 
 
 #endif

@@ -400,15 +400,15 @@ int silhouettesCounting(Vector<Vector<Pt>> unionsTable){
                 result++;//Apreciate current object as "human body silhouette"
         }else{//If object haven't matched propotions conditions - it's erased from image
             for(int u = 0; u < object.size(); u++){
-                Pt i = object[u];
+                //Pt i = object[u];
                 /* Repaint no human objects into garbageColor */
-                mainImage->setRGB(i.x, i.y, NOT_HUMAN_OBJECT_COLOR);
+                //mainImage->setRGB(i.x, i.y, NOT_HUMAN_OBJECT_COLOR);
             }
         }
     }
     /* -------------------------------------------------*/
-    cout << "       - HUMANS QUANTITY DUE TO PROPORTIONS = "
-         << result << endl;
+//    cout << "       - HUMANS QUANTITY DUE TO PROPORTIONS = "
+//         << result << endl;
     /* -------------------------------------------------*/
     return result;
 }
@@ -429,7 +429,7 @@ void shrinkSilhouettes(GBufferedImage* inputImg, int inputKoef){
     Vector<Vector<Pt>> unionsTable1;
     detectImageUnions(unionsTable1);
     int assign1 = silhouettesCounting(unionsTable1);
-
+    cout << "       - OBJECTS FOUND: " << unionsTable1.size() << endl;
     shrinkAllUnions(unionsTable1);
 
     UNION_COLOR = BLACK;//To return black-white picture from function
@@ -439,6 +439,6 @@ void shrinkSilhouettes(GBufferedImage* inputImg, int inputKoef){
 
     int averageQty = (assign1 + assign2) / 2;
 
-    cout << "==========================================================" << endl;
-    cout << "PROGRAM IS FINISHED. AVERAGE HUMANS QUANTITY IS: " << averageQty << endl;
+    cout << "------------------------------------------------------" << endl;
+    cout << "AVERAGE HUMANS QUANTITY IS: " << averageQty << endl;
 }

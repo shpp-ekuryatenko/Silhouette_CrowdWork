@@ -50,10 +50,9 @@ Vector<Pnt> getNewObject(int startX, int startY){
     Pnt currentPoint;
     currentPoint.x=startX;
     currentPoint.y=startY;
-
     Queue <Pnt> qWorkingPoints;
     qWorkingPoints.add(currentPoint);
-    userImg->setRGB(currentPoint.x, currentPoint.y, 0xffffff);// repaint point
+    userImg->setRGB(startX, startY, 0xffffff);// repaint point
     while(qWorkingPoints.size()>0){
         currentPoint=qWorkingPoints.dequeue(); // take point to work from queue
         res.add(currentPoint);  // add to object vector
@@ -79,8 +78,8 @@ Vector<Pnt> getNewObject(int startX, int startY){
 }
 
 // find objects on picture
-void findObjects(GBufferedImage* userImg){
-    userImg = userImg;
+void findObjects(GBufferedImage* inputImg){
+    userImg = inputImg;
     imgWidth = userImg->getWidth();
     imgHeight = userImg->getHeight();
 
@@ -94,7 +93,7 @@ void findObjects(GBufferedImage* userImg){
         }
     }
 
-    cout << "Objects found: " << objects.size() << endl;
+    cout << "       - OBJECTS FOUND: " << objects.size() << endl;
 }
 
 // define min-max coordinates of object
@@ -134,8 +133,8 @@ void destroyBWModel(char **bwModel, int ySize){
     delete[] bwModel;
 }
 
-void prihozhenkoProcess(GBufferedImage* userImg){
-
+void prihozhenkoProcess(){
+    cout << "       - OBJECTS ANALIZING..." << endl;
     int silhouettes=0;
     for(int i=0; i<objects.size();i++){
         auto obj=objects[i];
@@ -147,7 +146,7 @@ void prihozhenkoProcess(GBufferedImage* userImg){
         if(((double)xSize/ySize)<0.2) //min. proportion thick/height=20%
             continue;
 
-        cout << "Analizing object Nr " << i << " with coords (" << xMin << "-" << yMin << ")-("<<xMax<<"-"<<yMax<<")\n";
+        //cout << "Analizing object Nr " << i << " with coords (" << xMin << "-" << yMin << ")-("<<xMax<<"-"<<yMax<<")\n";
 
         // convert object to bw model for better speed analize.
         char **bwModel;
@@ -158,10 +157,10 @@ void prihozhenkoProcess(GBufferedImage* userImg){
         int sil_legs=(legs+1)/2;
         if(legs<=2) // additional proportion checking for objects
             if (!proportionCheking(bwModel, ySize, xSize)){ //check max. proportion thick/height=50%
-                cout << "Object don't pass proportion control.\n";
+                //cout << "Object don't pass proportion control.\n";
                 continue;
             }
-        cout << "Silhouette quantity (from legs): " << sil_legs << endl;
+        //cout << "Silhouette quantity (from legs): " << sil_legs << endl;
 
         // second check - head's counter
 
@@ -172,6 +171,7 @@ void prihozhenkoProcess(GBufferedImage* userImg){
         destroyBWModel(bwModel, ySize);
     }
 
-    cout << "Total silhouettes: " << silhouettes << endl;
+    cout << "------------------------------------------------------" << endl;
+    cout << "AVERAGE HUMANS QUANTITY IS: " << silhouettes << endl;
 
 }

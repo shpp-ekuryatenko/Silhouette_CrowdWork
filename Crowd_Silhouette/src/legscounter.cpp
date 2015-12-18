@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include "gbufferedimage.h"
 using namespace std;
 
@@ -110,8 +110,8 @@ int countObjLegs(auto bwModel, int ySize, int xSize){
     }
 
     int mc=countMassCenters(bwModel,ySize,xSize);
-    cout << "Silhouettes by mass centers: " << mc << endl;
-    cout << "legs: " << maxLegs << endl;
+    //cout << "Silhouettes by mass centers: " << mc << endl;
+    //cout << "legs: " << maxLegs << endl;
     
     return maxLegs;
 }

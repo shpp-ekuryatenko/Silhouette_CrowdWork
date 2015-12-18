@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: grid.h
  * ------------
  * This file exports the <code>Grid</code> class, which offers a

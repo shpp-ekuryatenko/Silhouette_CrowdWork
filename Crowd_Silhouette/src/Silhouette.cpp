@@ -14,28 +14,36 @@ using namespace std;
 /* img - main program image  */
 GBufferedImage* userImage;
 
-int main()
-{
-    string sourceFileName = "st2.jpg"; //
-
+/* Function: adjustMainWindow()  - Modified:
+ * Improved console window view
+ * ----------------------------
+ * Makes main program preparations - loads image, sets
+ * main global variables */
+void adjustMainWindow(GWindow& gw, string sourceFileName){
     userImage = new GBufferedImage(1000,1000,0);
     userImage->load(sourceFileName);
-    GWindow gw;
     int imgWidth = userImage->getWidth();
     int imgHeight = userImage->getHeight();
+    string title = "Silhouette";
+    setConsoleWindowTitle(title);
+    setConsoleLocation(imgWidth, 0);
+    setConsoleSize(500, 400);
     gw.setCanvasSize(imgWidth,imgHeight);
-    gw.add(userImage);
+    gw.add(userImage);              //To show objects discovered as not human
+}
 
-    /* New function -------------------- */
-     shrinkSilhouettes(userImage, 30);
-    /* --------------------------------- */
+int main()
+{
+    string sourceFileName = "st2.jpg";
+    GWindow gw;
+    adjustMainWindow(gw, sourceFileName);
 
+    cout << "------------------KURYATENKO PROCESS------------------" << endl;
+    shrinkSilhouettes(userImage, 30);
+
+    cout << "------------------PRIHOZHENKO PROCESS------------------" << endl;
     findObjects(userImage);
-
-    //cout << "Objects found: " << objects.size() << endl;
-
-
-
+    prihozhenkoProcess();
 
     return 0;
 }
